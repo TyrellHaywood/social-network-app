@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import Post from "./components/Post";
-import Link from "next/link";
 
 async function getPosts() {
   const posts = await prisma.post.findMany({
