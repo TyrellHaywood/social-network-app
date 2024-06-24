@@ -6,9 +6,9 @@ export function middleware(request: NextRequest) {
   if (currentUser && !request.nextUrl.pathname.startsWith('/dashboard')) {
     return Response.redirect(new URL('/dashboard', request.url))
   }
- 
-  if (!currentUser && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/signup')) {
-    return Response.redirect(new URL('/login', request.url))
+  
+  if (!currentUser && !request.nextUrl.pathname.startsWith('/access') && !request.nextUrl.pathname.startsWith('/signup') && !request.nextUrl.pathname.startsWith('/login')) {
+    return Response.redirect(new URL('/access', request.url))
   }
 }
  
