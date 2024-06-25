@@ -24,6 +24,7 @@ model User {
   name          String?
   email         String?   @unique
   password      String
+  school        String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   posts         Post[]
