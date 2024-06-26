@@ -1,5 +1,6 @@
+import { NextApiHandler } from "next";
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import CredentialsProvider  from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -18,12 +19,13 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 // handle auth!
-                const user = {id: "1", name: "tyrell", email: "test@test.com"}
-                return user
+                const user = {id: "1", name: "tyrell", email: "test@test.com"};
+                return user;
             }
         })
     ]
-}
+};
 
-const handler = NextAuth(authOptions)
-export {handler as GET, handler as POST}
+const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions);
+
+export { authHandler as GET, authHandler as POST };
