@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
             name: "Sign In",
             credentials: {
                 email: {
-                    label: "email",
+                    label: "Email",
                     type: "email",
                     placeholder: "hello@example.com"
                 },
@@ -26,6 +26,5 @@ export const authOptions: NextAuthOptions = {
     ]
 };
 
-const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions);
-
-export { authHandler as GET, authHandler as POST };
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }
