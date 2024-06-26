@@ -4,37 +4,50 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { fetchUniversities } from "../lib/universities";
 
-export default async function SignupPage() {
+export default function SignupPage() {
+  // states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [school, setSchool] = useState("");
   const [error, setError] = useState(null);
+  const [universities, setUniversities] = useState([]);
   const router = useRouter();
 
+  // call fetchUniversities function from /lib/universities
+  useEffect(() => {
+    async function getUniversities() {
+      try {
+        const data = await fetchUniversities();
+        setUniversities(data);
+      } catch (error) {
+        console.error("Failed to fetch universities", error);
+      }
+    }
+
+    getUniversities();
+  }, []);
+
+  //send data to signup route for prisma
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password, school }),
-      });
 
-      if (res.ok) {
-        router.push("/login");
-      } else {
-        const data = await res.json();
-        setError(data.message);
-      }
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password, school }),
+    });
+
+    if (res.ok) {
+      router.push("/access");
     } else {
-      alert("Password must match");
+      const data = await res.json();
+      setError(data.message);
     }
   };
-
-  const universities = await fetchUniversities();
 
   return (
     <div className="flex min-h-screen flex-row items-center justify-center">
@@ -68,7 +81,7 @@ export default async function SignupPage() {
         />
         <input
           type="password"
-          name="password"
+          name="confirmPassword"
           placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -79,6 +92,8 @@ export default async function SignupPage() {
           type="search"
           id="university"
           name="university"
+          value={school}
+          onChange={(e) => setSchool(e.target.value)}
           required
           className="text-black my-1 rounded block "
           placeholder="University / College"
