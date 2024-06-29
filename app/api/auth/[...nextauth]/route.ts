@@ -1,6 +1,9 @@
 import { NextApiHandler } from "next";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/prisma";
+import bcrypt, { compare } from "bcrypt";
+
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -17,10 +20,34 @@ export const authOptions: NextAuthOptions = {
                 },
                 password: {label: "Password", type: "password"}
             },
+            // handle auth!
             async authorize(credentials) {
-                // handle auth!
-                const user = {id: "1", name: "tyrell", email: "test@test.com"};
-                return user;
+                // check if credentials are correct
+                if(!credentials?.email || !credentials.password) {
+                    return null;
+                }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
+                })
+                // user does not exist
+                if (!user) {
+                    return null
+                }
+
+                const isPasswordValid = await compare(credentials.password, user.password)
+
+                if (!isPasswordValid) {
+                    return null
+                }
+
+                return {
+                    id: user.id +'',
+                    email: user.email,
+                    name: user.name
+                }
             }
         })
     ]
