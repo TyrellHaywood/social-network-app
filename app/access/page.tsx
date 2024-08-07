@@ -10,7 +10,7 @@ export default async function Page() {
     <div className="flex min-h-screen flex-col items-center justify-center">
       <pre>{JSON.stringify(session)}</pre>
       <div className="w-40 m-1 rounded bg-white text-black flex justify-center">
-        <Link href="/login">Log In</Link>
+        <Link href="/api/auth/signin">Log In</Link>
       </div>
       <div className="w-40 m-1 rounded bg-white text-black flex justify-center">
         <Link href="/signup">Sign Up</Link>
