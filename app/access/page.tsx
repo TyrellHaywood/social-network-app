@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { LoginButton, LogoutButton } from "../auth";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -15,6 +16,8 @@ export default async function Page() {
       <div className="w-40 m-1 rounded bg-white text-black flex justify-center">
         <Link href="/signup">Sign Up</Link>
       </div>
+      <LoginButton />
+      <LogoutButton />
     </div>
   );
 }
