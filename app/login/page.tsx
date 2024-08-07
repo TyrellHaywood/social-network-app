@@ -1,3 +1,6 @@
+import { signIn } from "next-auth/react";
+import bcrypt, { compare } from "bcrypt";
+
 export default function loginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -7,7 +10,7 @@ export default function loginPage() {
   return (
     <div className="flex min-h-screen flex-row items-center justify-center">
       <form
-        action={authenticate}
+        // action={authenticate}
         className="flex items-center justify-center flex-col"
       >
         <input

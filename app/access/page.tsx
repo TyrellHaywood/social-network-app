@@ -1,4 +1,4 @@
-"use client";
+"use server";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
