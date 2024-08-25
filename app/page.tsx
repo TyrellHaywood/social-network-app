@@ -9,6 +9,7 @@ export default async function Page() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
+      <pre>{JSON.stringify(session)}</pre>
       <LoginButton />
       <LogoutButton />
     </div>
